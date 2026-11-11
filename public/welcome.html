@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>환영합니다</title>
+</head>
+<body>
+    <h1 id="msg">확인 중...</h1>
+
+    <form action="/api/logout" method="post">
+        <button type="submit">로그아웃</button>
+    </form>
+
+    <script>
+        // 로그인 상태 확인: 세션이 없으면(401) 로그인 화면으로 돌려보냄
+        fetch('/api/me')
+            .then(res => {
+                if (!res.ok) {
+                    location.href = '/';
+                    return null;
+                }
+                return res.json();
+            })
+            .then(user => {
+                if (user) {
+                    document.getElementById('msg').textContent = user.username + '님, 로그인 성공!';
+                }
+            })
+            .catch(() => { location.href = '/'; });
+    </script>
+</body>
+</html>
